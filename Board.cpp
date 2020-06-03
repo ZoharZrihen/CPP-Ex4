@@ -31,8 +31,66 @@ namespace WarGame{
     //      must be handled by polymorphism.
     void Board::move(uint player_number, std::pair<int,int> source, MoveDIR direction){
 
-        int n=board.size();
-        int m=board[0].size();
+        int n=source.first;
+        int m=source.second;
+        Soldier* s=board[n][m];
+        if(s==nullptr){
+            throw invalid_argument("Error: No soldier in this place");
+        }
+        if(s->getID()!=player_number){
+            throw invalid_argument("Error: This soldier belongs to the other player.");
+        }
+        if(s->getHP()==0){
+            throw invalid_argument("Error: This soldier is dead");
+        }
+        switch(direction){
+            case Up:
+                if(n+1==board.size()){
+                    throw invalid_argument("Error: Player can't move out of the board");
+                }
+                if(board[n+1][m]!=nullptr){
+                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
+                }
+                board[n][m]=nullptr;
+                board[n+1][m]=s;
+                s->activate(n+1,m,*this);
+                break;
+            case Down:
+                if(n-1==-1){
+                    throw invalid_argument("Error: Player can't move out of the board");
+                }
+                if(board[n-1][m]!=nullptr){
+                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
+                }
+                board[n][m]=nullptr;
+                board[n-1][m]=s;
+                s->activate(n-1,m,*this);
+                break;
+            case Right:
+                if(m+1==board[0].size()){
+                    throw invalid_argument("Error: Player can't move out of the board");
+                }
+                if(board[n][m+1]!=nullptr){
+                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
+                }
+                board[n][m]=nullptr;
+                board[n][m+1]=s;
+                s->activate(n,m+1,*this);
+                break;
+            case Left:
+                if(m-1==-1){
+                    throw invalid_argument("Error: Player can't move out of the board");
+                }
+                if(board[n][m-1]!=nullptr){
+                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
+                }
+                board[n][m]=nullptr;
+                board[n][m-1]=s;
+                s->activate(n,m-1,*this);
+                break;
+        }
+
+
 
         
     }
@@ -42,7 +100,7 @@ namespace WarGame{
         int m=board[0].size();
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(board[i][j]!=nullptr && board[i][j]->getID()==player_number){
+                if(board[i][j]!=nullptr && board[i][j]->getID()==player_number&&board[n][m]->getHP()!=0){
                     return true;
                 }
             }

@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include "FootSoldier.hpp"
 
-namespace WarGame{
     class FootCommander: public FootSoldier{
 
         public:
@@ -13,8 +12,7 @@ namespace WarGame{
             hp+=50;
             power+=10;
             }
-        void activate() override;
+        void activate(int x,int y,WarGame::Board &board1) override;
         void printSoldier() override;
         
     };
-}//namespace wargame
