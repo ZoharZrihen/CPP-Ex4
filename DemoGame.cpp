@@ -99,4 +99,13 @@ namespace WarGame {
 		// If no player won, return "tie":
 		return 0;
 	}
+	DemoGame::~DemoGame() {
+			for (int i=0; i<8; i++) {
+				for (int j=0; j<8; j++) {
+					Soldier* soldier = board[{i,j}];
+					if (soldier)
+						delete soldier;
+				}
+			}
+		}
 } // namespace WarGame

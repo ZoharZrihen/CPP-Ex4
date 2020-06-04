@@ -24,13 +24,14 @@ void FootCommander::activate(std::vector<std::vector<Soldier *>> &b, pair<int, i
         double min=r*c;
         for(int i=0;i<r;i++){
             for(int j=0;j<c;j++){
-                Soldier *temp=b[i][j];
-                if(temp->getID()!=this->getID()){
-                    double dis=this->distance(location.first,i,location.second,j);
-                    if(dis<min){
-                        min=dis;
-                        chosen=temp;
-                        chosenLocation={i,j};
+                if(b[i][j]!=nullptr){
+                    Soldier *temp=b[i][j];
+                     if(temp->getID()!=this->getID()){
+                         double dis=this->distance(location.first,i,location.second,j);
+                         if(dis<min){
+                            min=dis;
+                            chosen=temp;
+                            chosenLocation={i,j};
                     }
                 }
                 else if(temp->getType()==Type::FootSol){
@@ -38,6 +39,7 @@ void FootCommander::activate(std::vector<std::vector<Soldier *>> &b, pair<int, i
                     sl.push_back({i,j});
 
                 }
+            }
             }
         }
         if(chosen!=nullptr){

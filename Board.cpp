@@ -32,10 +32,11 @@ using namespace std;
         if(n>=board.size()|| m>=board[0].size()|| n<0||m<0){
             throw invalid_argument("Error: Wrong location given, out of board");
         }
-        Soldier* s=board[n][m];
+        Soldier *s=board[n][m];
         if(s==nullptr){
             throw invalid_argument("Error: No soldier in this place");
         }
+
         if(s->getID()!=player_number){
             throw invalid_argument("Error: This soldier belongs to the other player.");
         }
@@ -75,15 +76,32 @@ using namespace std;
     }
 
     bool Board::has_soldiers(uint player_number) const{
-        int n=board.size();
-        int m=board[0].size();
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(board[i][j]!=nullptr && board[i][j]->getID()==player_number&&board[n][m]->getHP()!=0){
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[i].size();j++){
+                if(board[i][j]!=nullptr && board[i][j]->getID()==player_number){
                     return true;
                 }
             }
         }
         return false;
     }
+    void Board::print() const
+{
+    for (int i = 0; i < board.size(); i++)
+    {
+        for (int j = 0; j < board[i].size(); j++)
+        {
+            cout << "[" << i << "," << j << "]";
+            if (board[i][j] != nullptr)
+            {
+                board[i][j]->print();
+            }
+            else
+            {
+                cout << "{(NULL): NULL, hp: NULL}";
+            }
+        }
+        cout << endl;
+    }
+}
     
