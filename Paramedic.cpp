@@ -4,16 +4,16 @@
 #include <stdexcept>
 #include <iostream>
 #include "Paramedic.hpp"
-#include "Board.hpp"
+//#include "Board.hpp"
 using namespace std;
-    Paramedic::Paramedic(uint player_number){
+Paramedic::Paramedic(uint player_number){
       nplayer=player_number;
       hp=100;
       power=0;
       t=Type::Para;
     }
 
-    void Paramedic::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+void Paramedic::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
         int x=location.first;
         int y=location.second;
         Soldier *s;

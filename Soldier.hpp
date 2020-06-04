@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -14,17 +15,15 @@ typedef enum Type{
 } Type;
 
     class Soldier{
-        protected:
+    protected:
             uint nplayer;
             uint hp; //current hp
             uint power;
             Type t;
-        public:
+    public:
             Soldier();
             virtual ~Soldier(){};
             double distance(int x1,int y1,int x2,int y2){return sqrt(pow((x1-x2),2) + pow((y1-y2),2));}
-            bool Heal();
-            void dmg(uint points);
             virtual void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location)=0;
             virtual void print()=0;
             uint getID(){return nplayer;}
