@@ -1,12 +1,7 @@
-#include <iostream>
 #include "Board.hpp"
-#include <string>
-#include <vector>
-#include <stdexcept>
-#include "Soldier.hpp"
 
-using namespace std;
 using namespace WarGame;
+using namespace std;
 
 
     // operator for putting soldiers on the game-board during initialization.

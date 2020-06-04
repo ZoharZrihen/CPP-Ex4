@@ -1,11 +1,6 @@
-#include <string>
-#include <vector>
-#include <cmath>
-#include <stdexcept>
-#include <iostream>
+
 #include "Paramedic.hpp"
-//#include "Board.hpp"
-using namespace std;
+
 Paramedic::Paramedic(uint player_number){
       nplayer=player_number;
       hp=100;

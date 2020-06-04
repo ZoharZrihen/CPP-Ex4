@@ -16,11 +16,14 @@
 
 //check exceptions in diff cases
 
-TEST_CASE("Sniper VS Sniper") { //good
+TEST_CASE("Sniper VS Sniper") {
+    printf("im here1");
     WarGame::Board board(8,8);
     CHECK(!board.has_soldiers(1));
+    printf("im here2");
     board[{0,1}] = new Sniper(1);
     CHECK(board.has_soldiers(1));
+    printf("im here3");
     CHECK(!board.has_soldiers(2));
     board[{7,1}] = new Sniper(2);
     CHECK(board.has_soldiers(2));

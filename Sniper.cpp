@@ -1,10 +1,5 @@
-#include <string>
-#include <vector>
-#include <stdexcept>
-#include <iostream>
 #include "Sniper.hpp"
-#include "Board.hpp"
-using namespace std;
+
 
 
     Sniper::Sniper(uint player_number){

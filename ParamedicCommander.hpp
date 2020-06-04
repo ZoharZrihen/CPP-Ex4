@@ -1,8 +1,4 @@
 #pragma once
-
-#include <string>
-#include <vector>
-#include <stdexcept>
 #include "Paramedic.hpp"
 
 class ParamedicCommander : public Paramedic{

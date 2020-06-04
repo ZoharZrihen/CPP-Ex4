@@ -1,18 +1,15 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <stdexcept>
 #include "Soldier.hpp"
 
-    class FootSoldier: public Soldier{
+class FootSoldier: public Soldier{
         
-        public:
-            FootSoldier(){};
-            FootSoldier(uint player_number);
-            virtual ~FootSoldier(){};
-            virtual void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
-            virtual void print();
-            virtual uint getHealth(){return 100;}
+public:
+    FootSoldier(){};
+    FootSoldier(uint player_number);
+    virtual ~FootSoldier(){};
+    virtual void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
+    virtual void print();
+    virtual uint getHealth(){return 100;}
             
 
     };

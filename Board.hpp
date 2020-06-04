@@ -12,11 +12,11 @@
 #include <vector>
 #include <stdexcept>
 #include "Soldier.hpp"
-
+#include <iostream>
 
 namespace WarGame {
 
-class Board {
+  class Board {
   private:
     std::vector<std::vector<Soldier*>> board;
   public:
