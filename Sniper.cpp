@@ -7,36 +7,45 @@
 using namespace std;
 
 
-    void Sniper::activate(int x,int y,WarGame::Board &board1){
-        int x2,y2;
-        int max=0;
-        int mySniper=getID();
-        Soldier* chosenOne=nullptr;
-        vector<std::vector<Soldier *>>board2=board1.getBoard();
-        int m=board2.size();
-        int n=board2[0].size();
-        for(int i=0;i<m;i++){
-          for(int j=0;j<n;j++){
-            if(board2[i][j]->getID()!=mySniper&&board2[i][j]!=nullptr&&board2[i][j]->getHP()>max){
-              max=board2[i][j]->getHP();
-              x2=i;
-              y2=j;
-              chosenOne=board2[i][j];
-            }
-          }
-        }
-        if(chosenOne!=nullptr){
-          chosenOne->dmg(power);
-          if(chosenOne->getHP()==0){
-            board2[x2][y2]=nullptr;
-             cout<< "Sniper["<< x <<"]["<<y<<"] is attacking soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
-            cout << "Sniper["<< x <<"]["<<y<<"] killed soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
-          }else{
-            cout<< "Sniper["<< x <<"]["<<y<<"] is attacking soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
-          }
-        }
+    Sniper::Sniper(uint player_number){
+      nplayer=player_number;
+      hp=100;
+      power=50;
+      t=Type::Snip;
     }
-    void Sniper::printSoldier(){
+
+    void Sniper::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+       Soldier *chosen=nullptr;
+       pair<int,int>chosenLocation;
+       int r=b.size();
+       int c=b.size();
+       uint max=0;
+       for(int i=0;i<r;i++){
+         for(int j=0;j<c;j++){
+            if(b[i][j]!=nullptr){
+              Soldier *temp=b[i][j];
+              if(temp->getID()!=this->getID()){
+                uint tmax=temp->getHP();
+                if(tmax>max){
+                  max=tmax;
+                  chosen=temp;
+                  chosenLocation={i,j};
+                }
+              }
+            }
+         }
+       }
+       if(chosen!=nullptr){
+         int ehp=chosen->getHP();
+         int nhp=ehp-this->getPower();
+         if(nhp<=0){
+           b[chosenLocation.first][chosenLocation.second]=nullptr;
+         }else{
+           chosen->setHP(nhp);
+         }
+       }
+    }
+    void Sniper::print(){
         cout << "Sniper: ";
-        Soldier::printSoldier();
+      //  Soldier::print();
     }

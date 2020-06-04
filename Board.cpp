@@ -6,8 +6,9 @@
 #include "Soldier.hpp"
 
 using namespace std;
+using namespace WarGame;
 
-namespace WarGame{
+
     // operator for putting soldiers on the game-board during initialization.
     Soldier *&Board::operator[](std::pair<int,int> location){
         return board[location.first][location.second];
@@ -33,6 +34,9 @@ namespace WarGame{
 
         int n=source.first;
         int m=source.second;
+        if(n>=board.size()|| m>=board[0].size()|| n<0||m<0){
+            throw invalid_argument("Error: Wrong location given, out of board");
+        }
         Soldier* s=board[n][m];
         if(s==nullptr){
             throw invalid_argument("Error: No soldier in this place");
@@ -43,56 +47,36 @@ namespace WarGame{
         if(s->getHP()==0){
             throw invalid_argument("Error: This soldier is dead");
         }
+        std::pair<int, int> next = source;
         switch(direction){
-            case Up:
-                if(n+1==board.size()){
-                    throw invalid_argument("Error: Player can't move out of the board");
-                }
-                if(board[n+1][m]!=nullptr){
-                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
-                }
-                board[n][m]=nullptr;
-                board[n+1][m]=s;
-                s->activate(n+1,m,*this);
+            case MoveDIR::Up:
+                next.first=next.first+1;
                 break;
-            case Down:
-                if(n-1==-1){
-                    throw invalid_argument("Error: Player can't move out of the board");
-                }
-                if(board[n-1][m]!=nullptr){
-                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
-                }
-                board[n][m]=nullptr;
-                board[n-1][m]=s;
-                s->activate(n-1,m,*this);
+            case MoveDIR::Down:
+                next.first=next.first-1;
                 break;
-            case Right:
-                if(m+1==board[0].size()){
-                    throw invalid_argument("Error: Player can't move out of the board");
-                }
-                if(board[n][m+1]!=nullptr){
-                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
-                }
-                board[n][m]=nullptr;
-                board[n][m+1]=s;
-                s->activate(n,m+1,*this);
+            case MoveDIR::Right:
+                next.second=next.second+1;
                 break;
-            case Left:
-                if(m-1==-1){
-                    throw invalid_argument("Error: Player can't move out of the board");
-                }
-                if(board[n][m-1]!=nullptr){
-                    throw invalid_argument("Error: This location is aleardy taken by other soldier.");
-                }
-                board[n][m]=nullptr;
-                board[n][m-1]=s;
-                s->activate(n,m-1,*this);
+            case MoveDIR::Left:
+                next.second=next.second-1;
+                break;
+            default:
                 break;
         }
+        int i=next.first;
+        int j=next.second;
+        int size=board.size();
+        if(i>=size||j>=size||i<0||j<0){
+            throw invalid_argument("Error: Wrong location given, out of board");
+        }
+        if(board[i][j]!=nullptr){
+            throw invalid_argument("Error: This place is aleardy taken by other player");
+        }
+        board[i][j]=s;
+        board[n][m]=nullptr;
+        s->activate(board,next);
 
-
-
-        
     }
 
     bool Board::has_soldiers(uint player_number) const{
@@ -107,4 +91,4 @@ namespace WarGame{
         }
         return false;
     }
-}
+    

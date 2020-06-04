@@ -6,28 +6,68 @@
 #include "Paramedic.hpp"
 #include "Board.hpp"
 using namespace std;
+    Paramedic::Paramedic(uint player_number){
+      nplayer=player_number;
+      hp=100;
+      power=0;
+      t=Type::Para;
+    }
 
-
-    void Paramedic::activate(int x,int y,WarGame::Board &board1){
-        int myPara=getID();
-        vector<std::vector<Soldier *>>board2=board1.getBoard();
-        int m=board2.size();
-        int n=board2[0].size();
-        for(int i=0;i<m;i++){
-          for(int j=0;j<n;j++){
-            if(board2[i][j]->getID()==myPara&&board2[i][j]!=nullptr){
-              double d=distance(x,y,i,j);
-              if(d!=0 &&d<=sqrt(2)){
-                  bool healed=board2[i][j]->Heal();
-                  if(healed){
-                      cout<< "Paramedic["<< x <<"]["<<y<<"] is healing soldier at ["<<i<<"]["<<j<<"]"<<endl;
-                  }
-            }
+    void Paramedic::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+        int x=location.first;
+        int y=location.second;
+        Soldier *s;
+        if(x+1<b.size()){
+          s=b[x+1][y];
+          if(s!=nullptr&&s->getID()==this->getID()){
+              uint hptoheal=s->getHealth();
+              s->setHP(hptoheal);
           }
         }
+        if(x-1>=0){
+          s=b[x-1][y];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
+        }
+        if(y-1>=0){
+          s=b[x][y-1];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
+        }
+        if((y-1>=0)&&(x-1>=0)){
+          s=b[x-1][y-1];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
+        }
+        if((y+1<b.size())&&(x+1<b.size())){
+          s=b[x+1][y+1];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
+        }
+        if((y+1<b.size())&&(x-1>=0)){
+          s=b[x-1][y+1];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
+        }
+        if((y-1>=0)&&(x+1<b.size())){
+          s=b[x+1][y-1];
+          if(s!=nullptr&&s->getID()!=this->getID()){
+            uint hptoheal=s->getHealth();
+            s->setHP(hptoheal);
+          }
         }
     }
-    void Paramedic::printSoldier(){
+    void Paramedic::print(){
         cout << "Paramedic: ";
-        Soldier::printSoldier();
+//        Soldier::print();
     }

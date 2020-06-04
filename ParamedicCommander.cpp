@@ -7,26 +7,102 @@
 
 using namespace std;
 
-void ParamedicCommander::activate(int x, int y,WarGame::Board &board1){
-    cout<<"ParamedicCommander is attacking: "<<endl;
-    Paramedic::activate(x,y,board1);
-    cout<<"Speical Ability: "<<endl;
-    int myPC=getID();
-    vector<std::vector<Soldier*>> board2 = board1.getBoard();
-    int m=board2.size();
-    int n=board2[0].size();
-    for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-            if(board2[i][j]->getID()==myPC && board2[i][j]!=nullptr){
-                if(dynamic_cast<Paramedic*>(board2[i][j])!=nullptr &&dynamic_cast<ParamedicCommander*>(board2[i][j])==nullptr){
-                     board2[i][j]->activate(i,j,board1);
+ParamedicCommander::ParamedicCommander(uint player_number){
+    nplayer=player_number;
+    hp=200;
+    power=0;
+    t=Type::ParamedicCom;
+}
+
+void ParamedicCommander::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+    Soldier *chosen;
+    int x=location.first;
+    int y=location.second;
+    int r=b.size();
+    int c=b.size();
+    std::vector<Soldier *> st;
+    std::vector<pair<int, int>> sl;
+    int size=b.size();
+    if(x+1<size){
+        chosen=b[x+1][y];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if(y+1<size){
+        chosen=b[x][y+1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if(x-1>=0){
+        chosen=b[x-1][y];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if(y-1>=0){
+        chosen=b[x][y-1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if((y-1>=0)&&(x-1>=0)){
+        chosen=b[x-1][y-1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if((y+1<size)&&(x+1<size)){
+        chosen=b[x+1][y+1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if((y+1<size)&&(x-1>=0)){
+        chosen=b[x-1][y+1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    if((y-1>=0)&&(x+1<size)){
+        chosen=b[x+1][y-1];
+        if(chosen!=nullptr&&chosen->getID()==this->getID()){
+            uint heal=chosen->getHealth();
+            chosen->setHP(heal);
+
+        }
+    }
+    for(int i=0;i<r;i++){
+        for(int j=0;j<c;j++){
+            if(b[i][j]!=nullptr){
+                Soldier *temp=b[i][j];
+                if(temp->getID()==this->getID()){
+                    if(temp->getType()==Type::Para){
+                        temp->activate(b,{i,j});
+                    }
                 }
             }
         }
     }
+    
 }
- void ParamedicCommander::printSoldier(){
+ void ParamedicCommander::print(){
         cout <<"ParamedicCommander:";
-        Soldier::printSoldier();
+//        Soldier::print();
     }
 

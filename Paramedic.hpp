@@ -8,8 +8,11 @@
 class Paramedic: public Soldier{
         
     public:
-        Paramedic(uint nplayer): Soldier(nplayer,100){}
-        void activate(int x,int y,WarGame::Board &board1) override;
-        void printSoldier() override;
+        Paramedic(){};
+        Paramedic(uint nplayer);
+        virtual void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
+        virtual void print();
+        virtual uint getHealth(){return 100;}
+        virtual ~Paramedic(){};
 
 };

@@ -7,11 +7,9 @@
 
 class SniperCommander : public Sniper{
     public:
-    SniperCommander(uint nplayer): Sniper(nplayer){
-        Health+=20;
-        hp+=20;
-        power+=50;
-    }
-    void activate(int x, int y, WarGame:: Board &board1) override;
-    void printSoldier() override;
+    SniperCommander(uint player_number);
+    void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
+    void print();
+    uint getHealth(){return 120;}
+     ~SniperCommander(){};
 };

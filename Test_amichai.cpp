@@ -21,11 +21,10 @@ TEST_CASE("Sniper VS Sniper") { //good
     CHECK(!board.has_soldiers(1));
     board[{0,1}] = new Sniper(1);
     CHECK(board.has_soldiers(1));
-
     CHECK(!board.has_soldiers(2));
-	board[{7,1}] = new Sniper(2);
+    board[{7,1}] = new Sniper(2);
     CHECK(board.has_soldiers(2));
-
+     
     board.move(1,{0,1},WarGame::Board::MoveDIR::Up);
     CHECK(board.has_soldiers(2));
     CHECK(board.has_soldiers(1));

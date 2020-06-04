@@ -6,27 +6,56 @@
 #include <stdexcept>
 
 using namespace std;
+SniperCommander::SniperCommander(uint player_number){
+    nplayer=player_number;
+    hp=120;
+    power=100;
+    t=Type::SniperCom;
+}
+void SniperCommander::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+        Soldier *chosen=nullptr;
+        std::vector<pair<int, int>> sl;
+        std::vector<Soldier *> st;
+        int c=b.size();
+        int r=b.size();
+        pair<int,int>chosenLocation;
+        double max=0;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(b[i][j]!=nullptr){
+                    Soldier *temp=b[i][j];
+                    if(temp->getID()!=this->getID()){
+                        uint thp=temp->getHP();
+                        if(thp>max){
+                            max=thp;
+                            chosen=temp;
+                            chosenLocation={i,j};
+                        }
+                 }
+                else if(temp->getType()==Type::Snip){
+                    st.push_back(temp);
+                    sl.push_back({i,j});
 
-void SniperCommander::activate(int x, int y,WarGame::Board &board1){
-    cout<<"SniperCommander is attacking: "<<endl;
-    Sniper::activate(x,y,board1);
-    cout<<"Speical Ability: "<<endl;
-    int mySC=getID();
-    vector<std::vector<Soldier*>> board2 = board1.getBoard();
-    int m=board2.size();
-    int n=board2[0].size();
-    for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-            if(board2[i][j]->getID()==mySC && board2[i][j]!=nullptr){
-                if(dynamic_cast<Sniper*>(board2[i][j])!=nullptr &&dynamic_cast<SniperCommander*>(board2[i][j])==nullptr){
-                     board2[i][j]->activate(i,j,board1);
                 }
             }
         }
-    }
+        }
+        if(chosen!=nullptr){
+            int ehp=chosen->getHP();
+            int nhp=ehp-this->getPower();
+            if(nhp<=0){
+                b[chosenLocation.first][chosenLocation.second]=nullptr;
+
+            }else{
+                chosen->setHP(nhp);
+            }
+        }
+        for(int i=0;i<st.size();i++){
+            st[i]->activate(b,sl[i]);
+        }
 }
- void SniperCommander::printSoldier(){
+ void SniperCommander::print(){
         cout <<"SniperCommander:";
-        Soldier::printSoldier();
+       // Soldier::print();
     }
 

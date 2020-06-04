@@ -1,29 +1,37 @@
-#ifndef SOLDIER_HPP_
-#define SOLDIER_HPP_
+#pragma once
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <cmath>
+using namespace std;
+typedef enum Type{
+    FootSol,
+    FootCom,
+    Snip,
+    SniperCom,
+    Para,
+    ParamedicCom
+} Type;
 
-namespace WarGame{
-    class Board;
-}
     class Soldier{
         protected:
             uint nplayer;
-            uint Health; // starting hp
-            int hp; //current hp
+            uint hp; //current hp
             uint power;
+            Type t;
         public:
-            Soldier(uint id,uint hpoints,uint p=0): nplayer(id), Health(hpoints),hp(hpoints),power(p){}
-            double distance(int x1,int y1,int x2,int y2);
+            Soldier();
+            virtual ~Soldier(){};
+            double distance(int x1,int y1,int x2,int y2){return sqrt(pow((x1-x2),2) + pow((y1-y2),2));}
             bool Heal();
             void dmg(uint points);
-            virtual void activate(int x,int y,WarGame::Board &board1)=0;
-            virtual void printSoldier();
-            int getID(){return nplayer;}
-            int getHP(){return hp;}
-            
+            virtual void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location)=0;
+            virtual void print()=0;
+            uint getID(){return nplayer;}
+            uint getHP(){return hp;}
+            virtual uint getHealth() = 0;
+            void setHP(uint nhp) { hp = nhp; };
+            uint getPower(){return power;}
+            Type getType(){return t;}
             
     };
-
-#endif /* SOLDIER_HPP_ */

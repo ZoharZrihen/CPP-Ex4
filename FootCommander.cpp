@@ -7,25 +7,55 @@
 
 using namespace std;
 
-void FootCommander::activate(int x,int y,WarGame::Board &board1){
-    cout << "FootCommander is attacking: "<<endl;
-    cout << "Special Ability:" << endl;
-    int myFC=getID();
-    vector<std::vector<Soldier*>> board2 = board1.getBoard();
-    int m=board2.size();
-    int n=board2[0].size();
-    for(int i=0;i<m;i++){
-        for(int j=0;j<n;j++){
-            if(board2[i][j]->getID()==myFC && board2[i][j]!=nullptr){
-                if(dynamic_cast<FootSoldier*>(board2[i][j])!=nullptr &&dynamic_cast<FootCommander*>(board2[i][j])==nullptr){
-                     board2[i][j]->activate(i,j,board1);
+FootCommander::FootCommander(uint player_number){
+    nplayer=player_number;
+    hp=150;
+    power=20;
+    t=Type::FootCom;
+}
+
+void FootCommander::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+        Soldier *chosen=nullptr;
+        std::vector<pair<int, int>> sl;
+        std::vector<Soldier *> st;
+        int c=b.size();
+        int r=b.size();
+        pair<int,int>chosenLocation;
+        double min=r*c;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                Soldier *temp=b[i][j];
+                if(temp->getID()!=this->getID()){
+                    double dis=this->distance(location.first,i,location.second,j);
+                    if(dis<min){
+                        min=dis;
+                        chosen=temp;
+                        chosenLocation={i,j};
+                    }
+                }
+                else if(temp->getType()==Type::FootSol){
+                    st.push_back(temp);
+                    sl.push_back({i,j});
+
                 }
             }
         }
-    }
+        if(chosen!=nullptr){
+            int ehp=chosen->getHP();
+            int nhp=ehp-this->getPower();
+            if(nhp<=0){
+                b[chosenLocation.first][chosenLocation.second]=nullptr;
+
+            }else{
+                chosen->setHP(nhp);
+            }
+        }
+        for(int i=0;i<st.size();i++){
+            st[i]->activate(b,sl[i]);
+        }
 }
-void FootCommander::printSoldier(){
+void FootCommander::print(){
     cout << "FootCommander: ";
-    Soldier::printSoldier();
+//    Soldier::print();
 }
 

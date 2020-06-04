@@ -8,41 +8,46 @@
 
 using namespace std;
 
-    void FootSoldier::activate(int x, int y, WarGame::Board &board1){
-        int mySoldier=getID();
-        int x2;
-        int y2;
-        double min= __DBL_MAX__;
-        Soldier* chosenOne=nullptr;
-        vector<std::vector<Soldier*>> board2=board1.getBoard();
-        int m=board2.size();
-        int n=board2[0].size();
-        for(int i=0; i<m;i++){
-            for(int j=0;j<n;j++){
-                if(board2[i][j]->getID()!=mySoldier&&board2[i][j]!=nullptr){
-                    double d=distance(x,y,i,j);
-                    if(d<min){
-                        min=d;
-                        x2=i;
-                        y2=j;
-                        chosenOne=board2[i][j];
+    FootSoldier::FootSoldier(uint player_number){
+        nplayer=player_number;
+        hp=100;
+        power=10;
+        t=Type::FootSol;
+    }
+
+    void FootSoldier::activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location){
+        int c=b.size();
+        int r=b.size();
+        double min=r*c;
+        Soldier *chosen=nullptr;
+        pair<int,int>chosenLocation;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(b[i][j]!=nullptr){
+                    Soldier *temp=b[i][j];
+                    if(temp->getID()!=this->getID()){
+                        double tmin=this->distance(location.first,i,location.second,j);
+                        if(tmin<min){
+                            min=tmin;
+                            chosen=temp;
+                            chosenLocation={i,j};
+                        }
+                    }
                 }
             }
         }
-    }
-    if(chosenOne!=nullptr){
-        chosenOne->dmg(power);
-        if(chosenOne->getHP()==0){
-            board2[x2][y2]=nullptr;
-            cout<< "FootSoldier["<< x <<"]["<<y<<"] is attacking soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
-            cout << "FootSoldier["<< x <<"]["<<y<<"] killed soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
-        }else{
-            cout<< "FootSoldier["<< x <<"]["<<y<<"] is attacking soldier at ["<<x2<<"]["<<y2<<"]"<<endl;
+        if(chosen!=nullptr){
+            int ehp=chosen->getHP();
+            int nhp=ehp-this->getPower();
+            if(nhp<=0){
+                b[chosenLocation.first][chosenLocation.second]=nullptr;
+            }else{
+                chosen->setHP(nhp);
+            }
         }
     }
-    }
-    void FootSoldier::printSoldier(){
+    void FootSoldier::print(){
          cout<< "FootSoldier: ";
-         Soldier::printSoldier();
+       //  Soldier::print();
     }
 

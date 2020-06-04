@@ -7,10 +7,9 @@
 
 class ParamedicCommander : public Paramedic{
     public:
-    ParamedicCommander(uint nplayer): Paramedic(nplayer){
-        Health+=100;
-        hp+=100;
-    }
-    void activate(int x, int y, WarGame:: Board &board1) override;
-    void printSoldier() override;
+    ParamedicCommander(uint player_number);
+    void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
+    void print() override;
+    uint getHealth(){return 200;}
+    ~ParamedicCommander(){};
 };

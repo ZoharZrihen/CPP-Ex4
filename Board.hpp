@@ -7,8 +7,7 @@
  * @author Erel Segal-Halevi
  * @since  2020-05
  */
-#ifndef BOARD_HPP_
-#define BOARD_HPP_
+#pragma once
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -22,6 +21,7 @@ class Board {
     std::vector<std::vector<Soldier*>> board;
   public:
     enum MoveDIR { Up, Down, Right, Left };
+    Board();
     
     Board(uint numRows, uint numCols) : 
       board(numRows, std::vector<Soldier*>(numCols, nullptr)) {}
@@ -48,7 +48,7 @@ class Board {
     // returns true iff the board contains one or more soldiers of the given player.
     bool has_soldiers(uint player_number) const;
     std::vector<std::vector<Soldier*>>& getBoard(){ return board;}
+   
 };
 
 }
-#endif /* BOARD_HPP_ */

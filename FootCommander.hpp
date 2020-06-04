@@ -7,12 +7,10 @@
     class FootCommander: public FootSoldier{
 
         public:
-        FootCommander(uint nplayer): FootSoldier(nplayer){
-            Health+=50;
-            hp+=50;
-            power+=10;
-            }
-        void activate(int x,int y,WarGame::Board &board1) override;
-        void printSoldier() override;
+            FootCommander(uint player_number);
+            void activate(std::vector<std::vector<Soldier *>> &b, pair<int, int> location);
+            uint getHealth(){return 150;}
+            void print();
+            ~FootCommander(){};
         
     };
